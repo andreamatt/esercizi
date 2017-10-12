@@ -1,4 +1,4 @@
-C:\Users\andrea\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\172.4343.16\bin\cmake\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" C:\Users\andrea\Documents\GitHub\esercizi\17-10-10
+C:\Users\andrea\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\173.2941.5\bin\cmake\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" C:\Users\andrea\Documents\GitHub\esercizi\17-10-10
 -- The C compiler identification is GNU 6.3.0
 -- The CXX compiler identification is GNU 6.3.0
 -- Check for working C compiler: C:/MinGW/bin/gcc.exe
