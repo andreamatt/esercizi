@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/andrea/Documents/GitHub/esercizi/tree/Tree.h
+string.h
+-
+iostream
+-
+
+C:/Users/andrea/Documents/GitHub/esercizi/tree/main.cpp
+iostream
+-
+Tree.h
+C:/Users/andrea/Documents/GitHub/esercizi/tree/Tree.h
+random
+-
+

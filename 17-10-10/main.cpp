@@ -5,54 +5,19 @@
 using namespace std;
 
 int sum_N(vector<int>, int);
-int sommaseq_N_quad(vector<int> seq, int n);
-void sommaMat();
 void sum_N_NoSpace();
 void maxSubMatrixSum();
-int maxSubArraySum(int *array, int size);
+int maxSubArraySum(int* array, int size);
+int maxSubArraySum(vector<int> &array, int size);
+
 
 int main() {
 
-    maxSubMatrixSum();
+    sum_N_NoSpace();
 
 
     return 0;
 }
-
-void sommaMat(){
-    ifstream input("input.txt");
-    int rows, cols;
-    input>>rows;
-    input>>cols;
-    vector<vector<int>> matrix;
-    matrix.resize(rows);
-    for (int i = 0; i < matrix.size(); i++) {
-        matrix[i].resize(cols);
-    }
-
-    int current;
-    for (int i = 0; i < rows; ++i) {
-        int tempsum = 0;
-        for (int j = 0; j < cols; ++j) {
-            input>>current;
-            tempsum += current;
-            matrix[i][j] = tempsum;
-            cout<<matrix[i][j]<<", ";
-        }
-        cout<<endl;
-    }
-
-    // calcul
-
-    for (int r = 0; r < rows; ++r) {
-        for (int c = 0; c < cols; ++c) {
-
-        }
-    }
-
-
-}
-
 
 void maxSubMatrixSum() {
     int y;
@@ -61,18 +26,31 @@ void maxSubMatrixSum() {
     int maxSum = 0;
     ifstream in("input.txt");
     in >> y >> x;
-    int matrix[y][x];
+    //int matrix[y][x];
+    vector<vector<int>> matrix;
+    matrix.resize(y);
+    for(int i=0; i<y; i++){
+        matrix[i].resize(x);
+    }
 
     // putting data into matrix
     for (int k = 0; k < y; ++k) {
         for (int i = 0; i < x; ++i) {
             in >> matrix[k][i];
+            //cout<<matrix[k][i]<<", ";
         }
+        //cout<<endl;
     }
 
     // main algorithm
+    vector<int> temp;
+    temp.resize(y);
+
     for (int left = 0; left < x; left++) {
-        int temp[y] = {0};
+        //int temp[y] = {0};
+        for(int i=0; i<y; i++){
+            temp[i] = 0;
+        }
         for (int right = left; right < x; right++) {
             for (int i = 0; i < y; ++i) {
                 temp[i] += matrix[i][right];
@@ -86,8 +64,21 @@ void maxSubMatrixSum() {
     out << maxSum;
 }
 
+int maxSubArraySum(vector<int> &array, int size) {
+    int tmp = 0;
+    int tmpMax = 0;
 
-int maxSubArraySum(int *array, int size) {
+    for (int i = 0; i < size; ++i) {
+        tmp += array[i];
+        if (tmp < 0) {
+            tmp = 0;
+        }
+        tmpMax = max(tmpMax, tmp);
+    }
+    return tmpMax;
+}
+
+int maxSubArraySum(int* array, int size) {
     int tmp = 0;
     int tmpMax = 0;
 
@@ -155,20 +146,6 @@ int sum_N(vector<int> seq, int n){
             max_ending_here = 0;
     }
     return max_so_far;
-}
-
-int sommaseq_N_quad(vector<int> seq, int n){
-    // calc
-    int sum_max=seq[0];
-    for(int i=0; i<n; i++){
-        int sum_prec = 0;
-        for(int j=i; j<n; j++){
-            int sum = sum_prec + seq[j];
-            if(sum>sum_max) sum_max = sum;
-            sum_prec = sum;
-        }
-    }
-    return sum_max;
 }
 
 void somma(){
