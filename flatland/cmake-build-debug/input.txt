@@ -1,0 +1,21 @@
+9
+d s s d d d s s d
+0 1 2 3 4 5 6 7 8
+
+/*
+conjecture:
+se voglio ucciderlo mettendolo a sx della trippletta, devo:
+    1. riuscire a rimuovere tutto alla sua sx
+    2. vedere se a dx riesco a ottenere una coppia del tipo: d, x.
+
+
+//////////
+cercare di ottenere coppia d, x (lunghezza n pari):
+s s d s s /d
+0 1 2 3 4
+requires:   1. d in luogo pari
+            2. far sparire tutto a sx della d scelta (potendo scegliere tutti quelli a sx della d, posso di sicuro)
+            3. ridurre la parte dx a 1 solo termine  (è una sequenza lunga dispari, di cui non posso scegliere l ultimo,
+                quindi anche solo scegliendo all indice di d+2 fino alla riduzione)
+                LOLOLOL
+
