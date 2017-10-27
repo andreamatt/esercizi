@@ -6,10 +6,6 @@
 
 #IncludeRegexTransform: 
 
-C:/Users/andrea/Documents/GitHub/esercizi/flatland/helpers.h
-cmath
--
-
 C:/Users/andrea/Documents/GitHub/esercizi/flatland/main.cpp
 iostream
 -
@@ -21,6 +17,6 @@ fstream
 -
 ctime
 -
-helpers.h
-C:/Users/andrea/Documents/GitHub/esercizi/flatland/helpers.h
+cmath
+-
 

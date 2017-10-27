@@ -1,5 +1,5 @@
 9
-d s s d d d s s d
+d s s s s s d s d
 0 1 2 3 4 5 6 7 8
 
 /*
@@ -8,14 +8,42 @@ se voglio ucciderlo mettendolo a sx della trippletta, devo:
     1. riuscire a rimuovere tutto alla sua sx
     2. vedere se a dx riesco a ottenere una coppia del tipo: d, x.
 
-
 //////////
-cercare di ottenere coppia d, x (lunghezza n pari):
-s s d s s /d
-0 1 2 3 4
-requires:   1. d in luogo pari
-            2. far sparire tutto a sx della d scelta (potendo scegliere tutti quelli a sx della d, posso di sicuro)
-            3. ridurre la parte dx a 1 solo termine  (è una sequenza lunga dispari, di cui non posso scegliere l ultimo,
-                quindi anche solo scegliendo all indice di d+2 fino alla riduzione)
-                LOLOLOL
+PART 1:
+riuscire a rimuovere tutto alla sua sx
+esempio:
+s| d d s s s
+0| 1 2 3 4 5
+Sottoproblema: eliminare una sequenza lunga n pari, senza mai scegliere il primo:
+    esempio:
+    s| s d s d d
+    0| 1 2 3 4 5
+__________________
+test:
+ .   _   _   _
+ d s d d d d d
+ 0 1 2 3 4 5 6
+
+ can s s s s s s s |x
+     1 2 3 4 5 6 7 |8
+     cancel out?
+if 1 == s && c'è almeno una s in posto pari, con d a destra di essa, sì rid
+OR:
+
+ex: d s d d s s d
+    0 1 2 3 4 5 6
+Remove s ::{
+    while(circa contiene s){
+
+    }
+    if(la prima di ora == s){
+        no possibile
+    }
+    else{
+        possibile
+    }
+}
+
+
+
 
