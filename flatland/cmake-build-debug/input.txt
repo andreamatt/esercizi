@@ -1,6 +1,9 @@
-9
-d s s s s s d s d
-0 1 2 3 4 5 6 7 8
+13
+d  d  d  d  d  d  d  s  d  d  d  d  s
+0  1  2  3  4  5  6  7  8  9 10 11 12
+d) d  d  d  d  d  d  s (d) d (d) d (s)
+0 8
+
 
 /*
 conjecture:
@@ -9,40 +12,97 @@ se voglio ucciderlo mettendolo a sx della trippletta, devo:
     2. vedere se a dx riesco a ottenere una coppia del tipo: d, x.
 
 //////////
-PART 1:
-riuscire a rimuovere tutto alla sua sx
+Problema:
+data sequenza lunga n pari, estinguerla/capire se si puo
+_   _   _   _   _
+a b c d e f g h i j
+1 2 3 4 5 6 7 8 9 10
+_   _   _   _   _
+< > < > < > < > < >
+
+_   _   _   _   _
+< > > < > < > < > <
+
+=   _   _ C _   _
+< > < > > < > < > <
+
+// domanda: se gli estremi sono verso l interno, è sempre fattibile?
+
+>| x x x x x x |<
+risposta: sì. Di sicuro x..x si riduce a l=2 ==> > x x < ez game.
+
+// se non lo sono?
+<| x x x x x x |< si riduce a <| x x |<
+    casi:
+    x x = < < : ==> ez
+    x x = < > : ==> ez
+    x x = > < : ==> ez
+    x x = > > : ==> ez
+// conclusione: se sono concordi sì
+
+// se sono entrambi verso l'esterno?
+   _   _   _                     _
+<| x x x x x x |> si riduce a <| x x |>
+    casi:
+    x x = < < : ==> no
+    x x = < > : ==> ez
+    x x = > < : ==> no
+    x x = > > : ==> no
+
 esempio:
-s| d d s s s
-0| 1 2 3 4 5
-Sottoproblema: eliminare una sequenza lunga n pari, senza mai scegliere il primo:
-    esempio:
-    s| s d s d d
-    0| 1 2 3 4 5
-__________________
-test:
- .   _   _   _
- d s d d d d d
- 0 1 2 3 4 5 6
+   _ . _ . _ .
+<| < < < < > > |>
+                                                _ .
+si riduce a cercare di ricondurlo alla forma <| < > |>
+cioè trovare un < in _ e alla sua dx un > in .
+se i 3 spazi (start to <, < to >, > to end) sono distruttibili, gg ez
+altrimenti cerca altri <_ e >.
 
- can s s s s s s s |x
-     1 2 3 4 5 6 7 |8
-     cancel out?
-if 1 == s && c'è almeno una s in posto pari, con d a destra di essa, sì rid
-OR:
+Ricapitolando:
+devo ridurre una sequenza lunga n dispari a una 'd', estremi compresi:
+    _ . _ . _  .
+    x x d x x |y
+    - scorrendo tutte le d in posizione _:
+        - se i 2 spazi (start to d, d to end) sono distruttibili, ggez.
+            sottocapitolando:
+            distruggere spazi:
+              _ . _ . _ .
+            < x x x x x x >
+                - se l=2, controlla estremi
+                - se l=4, controlla estremi
+                - se l=k, trovare un < in _ e alla sua dx un > in .
+                          se i 3 spazi (start to <, < to >, > to end) sono distruttibili, gg ez
+                          altrimenti cerca altri <_ e >.
 
-ex: d s d d s s d
-    0 1 2 3 4 5 6
-Remove s ::{
-    while(circa contiene s){
 
-    }
-    if(la prima di ora == s){
-        no possibile
-    }
-    else{
-        possibile
-    }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

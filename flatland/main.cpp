@@ -6,28 +6,105 @@
 #include <cmath>
 
 using namespace std;
+ofstream output2("output2.txt");
 
 vector<char> copy(vector<char> seq);
 vector<pair<int, char>> copyRemoving(vector<pair<int, char>> seq, int a);
 vector<vector<pair<int, char>>> allSequences(int length);
-set<int> allCombsTest(vector<pair<int, char>> seq);
 set<int> allCombsTestNew(vector<pair<int, char>> seq);
-void allCombs();
-void submission();
-void testAll(int len);
 void checkNewSuper(int len);
 bool isThisSolution(vector<pair<int, char>> seq, int candidate);
 set<int> newAlgoz(vector<pair<int, char>> seq);
-bool canGive(vector<pair<int, char>> seq, int start, int end, bool giveS);
+bool isDestructible(vector<pair<int, char>> seq, int start, int end);
+
 
 int main() {
+    /*
+    vector<vector<pair<int, char>>> seqs = allSequences(6);
+    ofstream output("output.txt");
+    for(int i=0; i<seqs.size(); i++){
+        for(int k=0; k<seqs[i].size(); k++){
+            output<<seqs[i][k].second<<" ";
+        }
+        output<<" :  "<<((isDestructible(seqs[i], 0, seqs[i].size()-1)) ? "true" : "false" )<<endl<<endl;
+    }*/
 
-    //testAll(5);
-    checkNewSuper(13);
-    //allCombs();
-    //submission();
+
+
+
+    //checkNewSuper(13);
+
+
+    ifstream input("input.txt");
+    int size;
+    input>>size;
+    vector<pair<int, char>> seq;
+    seq.resize(size);
+    for(int i=0; i<size; i++){
+        seq[i].first = i;
+        input>>seq[i].second;
+    }
+    set<int> result = newAlgoz(seq);
+
+    ofstream output("output.txt");
+    output<<result.size()<<endl;
+    for(int i : result){
+        output<<i<<" ";
+    }
+    
 
     return 0;
+}
+
+bool isDestructible(vector<pair<int, char>> seq, int start, int end){
+    // indexes included
+    // if len==0, true
+    output2<<"Start: "<<start<<", end: "<<end<<endl;
+    if(end-start == -1){
+        //cout<<"Case 1"<<endl;
+        return true;
+    }
+
+    // if len==2 estremi diversi da <> (GIUSTO)
+    else if(end-start == 1){
+        //cout<<"Case 2"<<endl;
+        return !(seq[start].second == 's' && seq[end].second == 'd');
+    }
+
+    // if len==4
+    else if(end-start == 3){
+        //cout<<"Case 3"<<endl;
+        // estremi verso esterno
+        if(seq[start].second == 's' && seq[end].second == 'd'){
+            return (seq[start+1].second == 's') && (seq[end-1].second == 'd');
+        }
+        // altrimenti
+        else{
+            return true;
+        }
+    }
+
+    else{
+        //cout<<"Case 4"<<endl;
+        if(seq[start].second == 's' && seq[end].second == 'd'){
+            for(int i=start+1; i<=end-2; i+=2){
+                if(seq[i].second == 's'){
+                    for(int k=i+1; k<end; k+=2){
+                        if(seq[k].second == 'd'){   // i = 1, k = 4
+                            //cout<<"found candidate couple: i="<<i<<", k="<<k<<endl;
+                            if((isDestructible(seq, start+1, i-1) && isDestructible(seq, i+1, k-1)) && isDestructible(seq, k+1, end-1)){
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
 }
 
 set<int> newAlgoz(vector<pair<int, char>> seq){
@@ -42,11 +119,22 @@ set<int> newAlgoz(vector<pair<int, char>> seq){
 
 bool isThisSolution(vector<pair<int, char>> seq, int candidate){
 
-    // check if has 'd' in dx(cand) and 's' in sx(cand)
+    // check if has 's' in sx(cand) && 'd' in dx(cand)
     // NB: gli estremi no! => da 1 a penultimo
     bool sx = false;
     if(candidate == 0) {
         sx = true;
+    }
+    else if(seq[candidate-1].second == 'd'){
+        // casino: cercare 's', capire se sx(s) è distrutt e dx(s) pure
+        for(int i=1; i<candidate; i+=2){
+            if(seq[i].second == 's'){
+                if(isDestructible(seq, 1, i-1) && isDestructible(seq, i+1, candidate-1)){
+                    sx = true;
+                }
+            }
+        }
+
     }
     else{
         for (int i = 1; i < candidate; i += 2) {    // could put (i<indicate || sx)
@@ -60,6 +148,17 @@ bool isThisSolution(vector<pair<int, char>> seq, int candidate){
     if(candidate == seq.size()-1){
         dx = true;
     }
+    else if(seq[candidate+1].second == 's'){
+        // casino: cercare 'd', capire se sx(d) è distrutt e dx(d) pure
+        for(int i=candidate+1; i<seq.size()-1; i+=2){
+            if(seq[i].second == 'd'){
+                if(isDestructible(seq, candidate+1, i-1) && isDestructible(seq, i+1, seq.size()-2)){
+                    dx = true;
+                }
+            }
+        }
+
+    }
     else {
         for (int i = candidate + 1; i < seq.size() - 1; i+=2) {
             if (seq[i].second == 'd') {
@@ -69,12 +168,6 @@ bool isThisSolution(vector<pair<int, char>> seq, int candidate){
     }
 
     return sx && dx;
-}
-
-// start e end inclusi
-bool canGive(vector<pair<int, char>> seq, int start, int end, bool give_D){
-    char x = (give_D) ? 'd' : 's';
-    
 }
 
 void checkNewSuper(int len){
@@ -111,68 +204,10 @@ void checkNewSuper(int len){
             }
         }
         //for(int i : resultOld){cout<<i<<" ";}cout<<endl;for(int i: result){cout<<i<<" ";}
-        output<<"   Old: "<<end1-begin1<<", New: "<<end2-end1<<endl<<endl;
+        output<<"   Old: "<<end2-end1<<", New: "<<end1-begin1<<endl<<endl;
     }
     output<<"0 = d,   1 = s"<<endl;
     cout<<discrepanze / (pow(2, len) )<<" discrepanze per sequenza";
-}
-
-void testAll(int len){
-    vector<vector<pair<int, char>>> sequences = allSequences(len);
-    ofstream output("output.txt");
-    output<<"0 = d,   1 = s"<<endl;
-    for(vector<pair<int, char>> seq : sequences){
-        clock_t begin1 = clock();
-        set<int> resultOld = allCombsTest(seq);
-        clock_t end1 = clock();
-        set<int> result = allCombsTestNew(seq);
-        clock_t end2 = clock();
-        for(int i=0; i<seq.size(); i++){
-            if((result.find(i) != result.end()) != (resultOld.find(i) != resultOld.end())){
-                cout<<"Discrepanzaaaaaa"<<endl;
-            }
-            //cout<<seq[i].first;
-            if(result.find(i) != result.end()){
-                output<<"("<<seq[i].second / 115<<")";
-            }
-            else{
-                output<<" "<<seq[i].second / 115<<" ";
-            }
-        }
-        //for(int i : resultOld){cout<<i<<" ";}cout<<endl;for(int i: result){cout<<i<<" ";}
-        output<<"   Old: "<<end1-begin1<<", New: "<<end2-end1<<endl;
-    }
-    output<<"0 = d,   1 = s"<<endl;
-
-}
-
-void allCombs(){
-
-    ifstream input("input.txt");
-    int size;
-    input>>size;
-    vector<pair<int, char>> starting;
-    starting.resize(size);
-    for(int i=0; i<size; i++){
-        starting[i].first = i;
-        input>>starting[i].second;
-    }
-    clock_t begin1 = clock();
-    set<int> resultOld = allCombsTest(starting);
-    clock_t end1 = clock();
-    set<int> result = allCombsTestNew(starting);
-    clock_t end2 = clock();
-    ofstream output("output.txt");
-    for(int i=0; i<starting.size(); i++){
-        if(result.find(i) != result.end()){
-            cout<<"("<<starting[i].second<<")";
-        }
-        else{
-            cout<<" "<<starting[i].second<<" ";
-        }
-    }
-    //for(int i : resultOld){cout<<i<<" ";}cout<<endl;for(int i: result){cout<<i<<" ";}
-    cout<<endl<<"Old: "<<end1-begin1<<", New: "<<end2-end1;
 }
 
 set<int> allCombsTestNew(vector<pair<int, char>> seq){
@@ -205,7 +240,7 @@ set<int> allCombsTestNew(vector<pair<int, char>> seq){
             }
             if(! skippable) {
                 tempVec = copyRemoving(seq, index);
-                set<int> tempSet = allCombsTest(tempVec);
+                set<int> tempSet = allCombsTestNew(tempVec);
                 for(int k : tempSet){
                     if(result.find(k) != result.end()){
                         //cout<<i<<endl;
@@ -219,75 +254,6 @@ set<int> allCombsTestNew(vector<pair<int, char>> seq){
     }
     return result;
 }
-
-set<int> allCombsTest(vector<pair<int, char>> seq){
-    set<int> result;
-    if(seq.size() == 3){
-        if(seq[1].second == 's'){
-            result.insert(seq[2].first);
-        }
-        else{
-            result.insert(seq[0].first);
-        }
-    }
-    else {
-        vector<pair<int, char>> tempVec;
-        int index;
-        for (int i = 1; i < seq.size() - 1; i++) {
-            bool skippable = false;
-            if(seq[i].second == 'd'){
-                if((seq[i+1].second == 's') && (i+1 != seq.size()-1)){
-                    skippable = true;
-                    index = -1;
-                }
-                else {
-                    index = i;
-                }
-            }
-            else{
-                index = i-1;
-            }
-            if(! skippable) {
-                tempVec = copyRemoving(seq, index);
-                set<int> tempSet = allCombsTest(tempVec);
-                for(int k : tempSet){
-                    if(result.find(k) != result.end()){
-                        //cout<<i<<endl;
-                    }
-                }
-                result.insert(tempSet.begin(), tempSet.end());
-            }
-        }
-    }
-    return result;
-}
-
-
-void submission(){
-    ifstream input("input.txt");
-    int size;
-    input>>size;
-    vector<pair<int, char>> starting;
-    starting.resize(size);
-    for(int i=0; i<size; i++){
-        starting[i].first = i;
-        input>>starting[i].second;
-        //cout<<" "<<starting[i].second<<" ";
-    }
-    cout<<endl;
-    set<int> result = newAlgoz(starting);
-
-    ofstream output("output.txt");
-    output<<result.size()<<endl;
-    for(int i : result){
-        output<<i<<" ";
-    }
-
-}
-
-
-
-
 
 vector<pair<int, char>> copyRemoving(vector<pair<int, char>> seq, int a){
     vector<pair<int, char>> result;
