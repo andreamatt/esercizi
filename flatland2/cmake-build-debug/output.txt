@@ -1,0 +1,9 @@
+i = 5, time: 0, time/seq: 0
+i = 7, time: 1, time/seq: 0.0078125
+i = 9, time: 6, time/seq: 0.0117188
+i = 11, time: 34, time/seq: 0.0166016
+i = 13, time: 192, time/seq: 0.0234375
+i = 15, time: 986, time/seq: 0.0300903
+i = 17, time: 4677, time/seq: 0.0356827
+i = 19, time: 25863, time/seq: 0.0493298
+i = 21, time: 136972, time/seq: 0.0653133
