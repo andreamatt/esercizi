@@ -13,6 +13,7 @@ struct nodo{
 int maxFromHere(nodo*, bool);
 
 int main() {
+
     int N, M;
     vector<nodo> grafo;
     ifstream input("input.txt");
@@ -30,8 +31,8 @@ int main() {
 
     int maxD = 0;
     bool valueW = true;
-    for(int i=0; i<N; i++){
-        maxD = max(maxD, maxFromHere(&grafo[i], valueW));
+    for(nodo n : grafo){
+        maxD = max(maxD, maxFromHere(&n, valueW));
         valueW = !valueW;
     }
 
@@ -45,17 +46,13 @@ int maxFromHere(nodo* from, bool valueWant){
 
     vector<pair<nodo*,int>> toReach;
     from->visited = true;
-    pair<nodo*,int> p;
-    p.first = from;
-    p.second = 0;
+    pair<nodo*,int> p = make_pair(from, 0);
     toReach.push_back(p);
     //cout<<"Distance from "<<from->value<<endl;
     for(int i=0; i<toReach.size(); i++){
         for(nodo* j : toReach[i].first->vic){
             if(j->visited != valueWant){
-                pair<nodo*,int> t;
-                t.first = j;
-                t.second = toReach[i].second +1;
+                pair<nodo*,int> t = make_pair(j, toReach[i].second+1);
                 toReach.push_back(t);
                 j->visited = valueWant;
                 //cout<<"Added "<<t.first->value<<" "<<t.second<<endl;
