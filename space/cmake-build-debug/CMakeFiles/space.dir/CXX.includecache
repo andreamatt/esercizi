@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/andrea/Documents/GitHub/esercizi/space/main.cpp
+iostream
+-
+vector
+-
+fstream
+-
+unordered_set
+-
+ctime
+-
+

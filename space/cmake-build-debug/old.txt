@@ -1,0 +1,287 @@
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include <unordered_set>
+#include <ctime>
+
+using namespace std;
+
+struct nodo{
+    bool visited = false;
+    int value;
+    vector<nodo*> vic;
+    bool isCritical = false;
+    bool needVicere = true;
+    bool isInCompConn = false;
+    bool semiCritical = false;
+};
+
+void isCritical(nodo* start, int Total);
+void allCriticals(vector<nodo> &grafo);
+vector<int> unordered_setVicere(vector<nodo> &grafo);
+bool faParteDiQuestaComponente2connessa(nodo* current, nodo* start, bool starting, unordered_set<nodo*> &nodi);
+bool faParte2(nodo* current, nodo* start, bool starting, unordered_set<nodo*> &nodi);
+void dueconnessi(vector<nodo> &grafo);
+
+ofstream output2("output2.txt");
+
+int main() {
+
+    ifstream input("input.txt");
+    int N, M;
+    input>>N>>M;
+
+    vector<nodo> grafo;
+    grafo.resize(N);
+    for (int i = 0; i < N; ++i) {
+        grafo[i].value = i;
+    }
+    for (int i = 0; i < M; ++i) {
+        int from, to;
+        input>>from>>to;
+        grafo[from].vic.push_back(&grafo[to]);
+        grafo[to].vic.push_back(&grafo[from]);
+    }
+    cout<<"Starting..."<<endl;
+
+    //allCriticals(grafo);
+    //isCritical(&grafo[0], N);
+    //vector<int> vicere = unordered_setVicere(grafo);
+    clock_t c1 = clock();
+    dueconnessi(grafo);
+    clock_t c2 = clock();
+    //allCriticals(grafo);
+    clock_t c3 = clock();
+    cout<<c2-c1<<endl<<c3-c2<<endl;
+
+    int totalCrits = 0;
+    for(int i=0; i<N; i++){
+        totalCrits += grafo[i].semiCritical;
+    }
+    cout<<"TotalCrits%: "<<totalCrits*100/N<<", totalcr: "<<totalCrits<<", N: "<<N<<endl;
+
+    ofstream output("output.txt");
+    //output<<comp_conn.size()<<endl;
+
+
+    return 0;
+}
+
+void dueconnessi(vector<nodo> &grafo){
+
+    vector<unordered_set<nodo*>> componenti;
+    for(int i=0; i<grafo.size(); i++){
+        //output2<<i<<endl;
+        nodo* n = &grafo[i];
+        if(!n->isInCompConn){
+            unordered_set<nodo*> set1;
+            //faParteDiQuestaComponente2connessa(n, n, true, set1);
+            faParte2(n, n, true, set1);
+            componenti.push_back(set1);
+            //cout<<"Compon: "<<i<<" "<<grafo[1].semiCritical<<" "<<grafo[14].semiCritical<<endl;
+            for(nodo* c : set1){
+                //cout<<c->value<<", ";
+                bool semiC = false;
+                for(nodo* j : c->vic){
+                    semiC = semiC || (set1.find(j) == set1.end());
+                }
+                c->semiCritical = c->semiCritical || semiC;
+            }
+            for(int j=0; j<grafo.size(); j++){
+                grafo[j].visited = false;
+            }
+            //cout<<endl;
+        }
+    }
+}
+
+bool faParte2(nodo* current, nodo* start, bool starting, unordered_set<nodo*> &nodi){
+
+    bool result = false;
+    bool currCrit = current->semiCritical;
+    if(current->vic.size() == 1){
+        current->isInCompConn = true;
+        return false;
+    }
+    if(start == current){
+        if(starting){
+            // vicini, starting = true
+            for(nodo* v : current->vic){
+                //output2<<"Vic "<<v->value<<endl;
+                if(currCrit){
+                    if(v->semiCritical){
+                        result = result || faParte2(v, start, true, nodi);
+                    }
+                }
+                else{
+                    if(!v->isInCompConn || v->semiCritical){
+                        result = result || faParte2(v, start, true, nodi);
+                    }
+                }
+            }
+        }
+        else{
+            result = true;
+        }
+    }
+    else{
+        if(starting){
+            // vicini diversi da start, starting = false
+            current->visited = true;
+            for(nodo* v : current->vic){
+                if(v != start && !v->visited){
+                    if(currCrit){
+                        if(v->semiCritical){
+                            result = result || faParte2(v, start, false, nodi);
+                        }
+                    }
+                    else{
+                        if(!v->isInCompConn || v->semiCritical){
+                            result = result || faParte2(v, start, false, nodi);
+                        }
+                    }
+                }
+            }
+        }
+        else{
+            // vicini qualsiasi, starting = false ( CASO GENERICO )
+            current->visited = true;
+            for(nodo* v : current->vic){
+                if(!v->visited){
+                    if(v == start){
+                        result = result || faParte2(v, start, false, nodi);
+                    }
+                    else {
+                        if (currCrit) {
+                            if (v->semiCritical) {
+                                result = result || faParte2(v, start, false, nodi);
+                            }
+                        } else {
+                            if (!v->isInCompConn || v->semiCritical) {
+                                result = result || faParte2(v, start, false, nodi);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    if(result){
+        nodi.insert(current);
+        current->isInCompConn = true;
+    }
+
+    return result;
+
+}
+
+bool faParteDiQuestaComponente2connessa(nodo* current, nodo* start, bool starting, unordered_set<nodo*> &nodi){
+
+    //output2<<current->value<<", "<<starting<<endl;
+    bool result = false;
+    if(start == current){
+        if(starting){
+            // vicini, starting = true
+            for(nodo* v : current->vic){
+                //output2<<"Vic "<<v->value<<endl;
+                result = result || faParteDiQuestaComponente2connessa(v, start, true, nodi);
+            }
+        }
+        else{
+            result = true;
+        }
+    }
+    else{
+        if(starting){
+            // vicini diversi da start, starting = false
+            current->visited = true;
+            for(nodo* v : current->vic){
+                if(v != start && !v->visited){
+                    result = result || faParteDiQuestaComponente2connessa(v, start, false, nodi);
+                }
+            }
+        }
+        else{
+            // vicini qualsiasi, starting = false ( CASO GENERICO )
+            current->visited = true;
+            for(nodo* v : current->vic){
+                if(!v->visited){
+                    result = result || faParteDiQuestaComponente2connessa(v, start, false, nodi);
+                }
+            }
+        }
+    }
+
+    if(result){
+        nodi.insert(current);
+        current->isInCompConn = true;
+    }
+
+    return result;
+}
+
+vector<int> unordered_setVicere(vector<nodo> &grafo){
+
+    vector<int> vicere;
+
+    for(int i=0; i<grafo.size(); i++){
+        if( (!grafo[i].isCritical) && grafo[i].needVicere){
+            vector<nodo*> toReach;
+            unordered_set<nodo*> crits;
+            grafo[i].visited = true;
+            grafo[i].needVicere = false;
+            toReach.push_back(&grafo[i]);
+            for(int i=0; i<toReach.size(); i++){
+                for(nodo* v : toReach[i]->vic){
+                    if(v->isCritical){
+                        crits.insert(v);
+                    }
+                    else{
+                        if(! v->visited){
+                            v->visited = true;
+                            v->needVicere = false;
+                            toReach.push_back(v);
+                        }
+                    }
+                }
+            }
+
+            if(crits.size() == 1){
+                vicere.push_back(grafo[i].value);
+            }
+        }
+    }
+
+    return vicere;
+}
+
+void isCritical(nodo* start, int Total){
+    start->visited = true;
+    vector<nodo*> toReach;
+    if(start->vic.size() != 0){
+        toReach.push_back(start->vic[0]);
+        start->vic[0]->visited = true;
+    }
+    for(int i=0; i<toReach.size(); i++){
+        for(nodo* v : toReach[i]->vic){
+            if(! v->visited){
+                v->visited = true;
+                toReach.push_back(v);
+            }
+        }
+    }
+
+    start->visited = false;
+    for(nodo* n : toReach){
+        n->visited = false;
+    }
+    //cout<<"Total: "<<Total<<", reached: "<<toReach.size()<<endl;
+    start->isCritical = !(toReach.size()+1 == Total);
+}
+
+void allCriticals(vector<nodo> &grafo){
+    for(int i=0; i<grafo.size(); i++){
+        isCritical(&grafo[i], grafo.size());
+    }
+}
