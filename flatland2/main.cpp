@@ -13,18 +13,24 @@ set<int> newAlgoz(vector<pair<int, char>> seq);
 bool isDestructible(vector<pair<int, char>> seq, int start, int end);
 vector<vector<pair<int, char>>> allSequences(int length);
 vector<char> copy(vector<char> seq);
+vector<pair<int,char>> randomSeq(int len);
 
 ofstream output("output.txt");
 
 int main() {
-
-    for(int i=5; i<22; i+=2){
-        vector<vector<pair<int, char>>> seq_s = allSequences(i);
-        clock_t before = clock();
-        for(vector<pair<int, char>> seq : seq_s){
-            newAlgoz(seq);
+    srand(time(NULL));
+    for(int i=5; i<2000; i+=20){
+        int total = 0;
+        int n = 10;
+        int mx = 0;
+        for(int j=0; j<n; j++){
+            vector<pair<int, char>> seq_s = randomSeq(i);
+            clock_t before = clock();
+            newAlgoz(seq_s);
+            total += clock()-before;
+            mx = max(mx, int(clock()-before));
         }
-        output<<"i = "<<i<<", time: "<<(clock()-before)<<", time/seq: "<<(clock()-before)/pow(2, i)<<endl;
+        output<<i<<", "<<(total-mx)/(n-1)<<endl;
     }
 
     return 0;
@@ -183,3 +189,13 @@ vector<char> copy(vector<char> seq){
     }
     return result;
 }
+
+vector<pair<int,char>> randomSeq(int len){
+    vector<pair<int, char>> seq;
+    seq.resize(len);
+    for(int i=0; i<len; i++){
+        seq[i].first = i;
+        seq[i].second = (rand()%2 == 0) ? 's' : 'd';
+    }
+    return seq;
+};

@@ -112,5 +112,3 @@ vector<int> allVicere(vector<nodo>& grafo){
 
     return vicere;
 }
-
-
