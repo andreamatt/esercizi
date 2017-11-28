@@ -1,3 +1,0 @@
-C:/Users/andrea/Documents/GitHub/esercizi/17-10-10/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-C:/Users/andrea/Documents/GitHub/esercizi/17-10-10/cmake-build-debug/CMakeFiles/17_10_10.dir
-C:/Users/andrea/Documents/GitHub/esercizi/17-10-10/cmake-build-debug/CMakeFiles/edit_cache.dir

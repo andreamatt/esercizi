@@ -1,0 +1,6 @@
+GCDFrom: 1
+ 2V 4
+GCDFrom: 9
+ 2V 4
+GCDFrom: 12
+ 2V 4
