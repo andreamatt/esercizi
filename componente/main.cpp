@@ -9,7 +9,6 @@ struct nodo{
     vector<nodo*> vic;
     bool visited = false;
     int value;
-    nodo* parent = nullptr;
 };
 
 void DFS(nodo* start, stack<int>& stack1);
@@ -61,6 +60,7 @@ int main() {
         }
     }
 
+    // find biggest SCC
     int mx = 0;
     for(int i=0; i<SCCs.size(); i++){
         int len = SCCs[i].size();
