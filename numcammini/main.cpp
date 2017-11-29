@@ -44,6 +44,10 @@ pair<int,int> numCamminiMinBFS(nodo* from, nodo* to){
     int minDist = INT_MAX;
     int ways = 0;
 
+    // BFS from S to E
+    // once i reach E i set minDist to the current dist
+    // since it is a BFS, the first time i reach E is using a minDist path
+    // all paths longer than minDist are now ignored
     for(int i=0; i<toReach.size(); i++){
         if(toReach[i].second >= minDist){
             // tutti i suoi vicini sono piu distanti => li salto

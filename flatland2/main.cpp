@@ -17,6 +17,8 @@ vector<pair<int,char>> randomSeq(int len);
 
 ofstream output("output.txt");
 
+// Flatland2 is only to measure flatland algorithm speed
+// it basically creates sequences and runs the algo for each of them, using clock() to measure elapsed time
 int main() {
     srand(time(NULL));
     for(int i=5; i<2000; i+=20){

@@ -1,3 +1,0 @@
-C:\Users\andrea\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\172.4343.16\bin\cmake\bin\cmake.exe -E remove -f CMakeFiles\sorting.dir/objects.a
-C:\MinGW\bin\ar.exe cr CMakeFiles\sorting.dir/objects.a @CMakeFiles\sorting.dir\objects1.rsp
-C:\MinGW\bin\g++.exe -g   -Wl,--whole-archive CMakeFiles\sorting.dir/objects.a -Wl,--no-whole-archive  -o sorting.exe -Wl,--out-implib,libsorting.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\sorting.dir\linklibs.rsp

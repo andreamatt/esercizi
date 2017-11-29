@@ -8,6 +8,12 @@ using namespace std;
 
 string r_s(size_t length);
 
+// NOTHING TO DO WITH ALGORITMI & STRUTTURE DATI
+// creates random database for tabela's 2nd assignment
+// it creates a sql query for all entries
+// READ!!!!!!!
+// you only need to change the amount of actors/movies/awards and replace "db_219" with yours
+// you also might need to set your import settings to "ignore" instead of "replace" for multiple identical entries
 int main() {
 
     vector<string> genres   = {"Comedy", "Drama", "Horror", "Thriller"};

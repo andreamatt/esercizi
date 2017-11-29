@@ -31,6 +31,8 @@ int main() {
 
     int maxD = 0;
     bool valueW = true;
+    // BFS starting from every node, the last i reach is the farthest
+    // instead of resetting "visited" to false, i just switch between true and false the expected value
     for(nodo n : grafo){
         maxD = max(maxD, maxFromHere(&n, valueW));
         valueW = !valueW;

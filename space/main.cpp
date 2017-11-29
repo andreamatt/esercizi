@@ -48,6 +48,7 @@ int main() {
 }
 
 void allArticulationPoints(nodo* current, int time){
+    // algorithm from wikipedia
     current->visited = true;
     current->time = time;
     current->lowTime = time;
@@ -87,7 +88,7 @@ vector<int> allVicere(vector<nodo>& grafo){
     // for each node, NOT art-points, gather points until find arts
     for(int i=0; i<grafo.size(); i++){
         if(!grafo[i].isArticulation && !grafo[i].visited){
-            // visit nodes, NOT APs, check if encounted more than 1 AP
+            // visit nodes, NOT APs, check if encountered more than 1 AP
             vector<nodo*> toReach;
             unordered_set<nodo*> APs;
             grafo[i].visited = true;
