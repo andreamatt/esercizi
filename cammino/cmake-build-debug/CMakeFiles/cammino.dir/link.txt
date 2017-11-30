@@ -1,0 +1,3 @@
+C:\Users\andrea\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\172.4343.16\bin\cmake\bin\cmake.exe -E remove -f CMakeFiles\cammino.dir/objects.a
+C:\MinGW\bin\ar.exe cr CMakeFiles\cammino.dir/objects.a @CMakeFiles\cammino.dir\objects1.rsp
+C:\MinGW\bin\g++.exe -g   -Wl,--whole-archive CMakeFiles\cammino.dir/objects.a -Wl,--no-whole-archive  -o cammino.exe -Wl,--out-implib,libcammino.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\cammino.dir\linklibs.rsp
