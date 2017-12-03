@@ -1,0 +1,3 @@
+C:/Users/andrea/Documents/GitHub/esercizi/testBCC/cmake-build-debug/CMakeFiles/testBCC.dir
+C:/Users/andrea/Documents/GitHub/esercizi/testBCC/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/andrea/Documents/GitHub/esercizi/testBCC/cmake-build-debug/CMakeFiles/rebuild_cache.dir

@@ -20,10 +20,11 @@ int main() {
     vector<string> awards   = {"Oscar, Best Director", "Oscar, Best Film", "Oscar, Best Setting",
                                "Oscar, Best Actor", "MTV, Best Director", "MTV, Best Actor"};
     vector<string> names    = {"Adi", "Andrea", "Giulio", "Mauro", "Giovanni"};
-    vector<string> surnames = {"Bianchi", "Rossi", "Diaconi", "Blui", "Macri", "Karini", "MottaSanGiuanni"};
+    vector<string> surnames = {"Bianchi", "Rossi", "Diaconi", "Blui", "Macri"};
     vector<string> chnames1 = {"The", "A", "The Only", "Il", "Maybe"};
     vector<string> chnames2 = {" Magnificent", " Unique", " Useless", " Modern", " Colorful", " Macro"};
     vector<string> chnames3 = {" Flash", " Batman", " Arrow", " DeadPool", " Dolfo", " CatWoman", " Zuckemberg", " Aquaman"};
+    vector<string> countries= {"IT", "UK", "US", "FR"};
     
     srand(time(NULL));
 
@@ -40,8 +41,8 @@ int main() {
         pair<string,string> m = make_pair("Title_" + to_string(rand()%50), to_string(rand()%120 + 1900));
         movies.push_back(m);
         string movS = "('" + m.first + "', " + m.second + ", 'D_" + to_string(rand()%30)
-                      + "', 'COU_" + r_s(3) + "', " + to_string(rand()%11)
-                      + ", '" + genres[rand()%genres.size()] + "', " + to_string((rand()%15 + 15) * 1000000)
+                      + "', '" + countries[rand()%countries.size()] + "', " + to_string(rand()%11)
+                      + ", '" + genres[rand()%genres.size()] + "', " + to_string((rand()%51 + 20) * 1000000)
                       + ", 'PRO_" + to_string(rand()%10) + "'),";
         Omovies += movS + "\n";
     }
