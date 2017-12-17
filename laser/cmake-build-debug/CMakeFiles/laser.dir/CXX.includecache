@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/andrea/Documents/GitHub/esercizi/laser/main.cpp
+iostream
+-
+fstream
+-
+vector
+-
+unordered_set
+-
+set
+-
+climits
+-
+ctime
+-
+stack
+-
+
