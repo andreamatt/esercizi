@@ -1,0 +1,4 @@
+C:\Users\andrea\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\173.4301.33\bin\cmake\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" C:\Users\andrea\Documents\GitHub\esercizi\pokemon3
+-- Configuring done
+-- Generating done
+-- Build files have been written to: C:/Users/andrea/Documents/GitHub/esercizi/pokemon3/cmake-build-debug
