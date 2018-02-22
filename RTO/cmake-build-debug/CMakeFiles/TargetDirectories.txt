@@ -1,0 +1,3 @@
+C:/Users/andrea/Documents/GitHub/esercizi/RTO/cmake-build-debug/CMakeFiles/RTO.dir
+C:/Users/andrea/Documents/GitHub/esercizi/RTO/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/andrea/Documents/GitHub/esercizi/RTO/cmake-build-debug/CMakeFiles/rebuild_cache.dir

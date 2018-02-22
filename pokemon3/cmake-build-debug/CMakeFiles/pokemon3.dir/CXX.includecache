@@ -11,6 +11,12 @@ unordered_set
 -
 vector
 -
+iostream
+-
+stack
+-
+climits
+-
 
 C:/Users/andrea/Documents/GitHub/esercizi/pokemon3/main.cpp
 iostream
