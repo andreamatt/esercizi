@@ -2,7 +2,6 @@
 #include <fstream>
 #include <vector>
 #include <map>
-#include <set>
 #include <climits>
 
 using namespace std;
@@ -26,6 +25,71 @@ int sottocresRec(vector<int>& seq, int i, int limit){
     int taken = seq[i] + sottocresRec(seq, i-1, seq[i]);
 
     return max(taken, notTaken);
+}
+
+int sottocresMonoRec(vector<int>& seq, int i, vector<int>& DP){
+    int N = seq.size();
+
+    if(DP[i] == -1){
+        int mx = 0;
+        for(int j=i+1; j<N; j++){
+            if(seq[i] <= seq[j]){
+                mx = max(mx, sottocresMonoRec(seq, j, DP));
+            }
+        }
+        DP[i] = mx + seq[i];
+    }
+
+    return DP[i];
+}
+
+int sottocresMono(vector<int>& seq){
+    int N = seq.size();
+    vector<int> DP(N, -1);
+    int mx = 0;
+    for(int i=0; i<N; i++){
+        int result = sottocresMonoRec(seq, i, DP);
+        mx = max(mx, result);
+    }
+    return mx;
+}
+
+int sottocresDualRec(vector<int>& seq, int i, int j, int** DP){
+    int N = seq.size(); 
+    if(i==N){
+        return 0;
+    }
+
+    if(DP[i][j] == -1){
+        if(seq[i] < seq[j]){
+            DP[i][j] = sottocresDualRec(seq, i+1, j, DP);
+        }
+        else{
+            DP[i][j] = max(sottocresDualRec(seq, i+1, j, DP), sottocresDualRec(seq, i+1, i, DP) + seq[i]);
+        }
+    }
+
+    return DP[i][j];
+}
+
+int sottocresDual(vector<int>& seq){
+    int N = seq.size();
+    int** DP = new int*[N];
+    for(int i=0; i<N; i++){
+        DP[i] = new int[N];
+        for(int j=0; j<N; j++){
+            DP[i][j] = -1;
+        }
+    }
+
+    int mx=0;
+    for(int i=0; i<N; i++){
+        for(int j=0; j<N; j++){
+            mx = max(mx, sottocresDualRec(seq, i, j, DP));
+        }
+    }
+
+    return mx;
 }
 
 int sottocres(vector<int>& seq){
@@ -70,19 +134,6 @@ int sottocres(vector<int>& seq){
     return mx;
 }
 
-void test(){
-    map<int, int> t;
-    t.insert({{4, 2}, {5, 4}, {10, 9}});
-    for (map<int,int>::iterator it=t.begin(); it!=t.end(); ++it){
-        cout << it->first << " => " << it->second << '\n';
-    }
-
-    cout<<"Begin: "<<t.begin()->first<<", end: "<<(t.end())->first<<", rbegin: "<<t.rbegin()->first<<endl;
-    cout<<"Upper: "<<t.upper_bound(2)->first<<", lower: "<<t.lower_bound(2)->first<<endl;
-    cout<<"Upper_dec: "<<(--t.upper_bound(2))->first<<endl;
-    cout<<(--t.begin()==t.end())<<endl;
-}
-
 // serve upperbound diminuito
 
 int main(){
@@ -94,15 +145,12 @@ int main(){
     for(int i=0; i<N; i++){
         input>>seq[i];
     }
-
-    //test();
-
-    int result = sottocres(seq);
-    //cout<<result<<endl;
+    
+    int result = sottocresMono(seq);
     ofstream output("output.txt");
+    //cout<<result<<endl;
     output<<result;
-    //cout<<"Ric: "<<sottocresRec(seq, N-1, INT_MAX)<<endl;
-
+    
     return 0;
 }
 
