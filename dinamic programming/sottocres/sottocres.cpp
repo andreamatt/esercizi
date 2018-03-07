@@ -32,40 +32,33 @@ int sottocres(vector<int>& seq){
     int N = seq.size();
 
     map<int,int> DP;
-    if(seq[0] >= 0){
-        DP.insert({seq[0], seq[0]});
-    }
-    else{
-        DP.insert({INT_MIN, 0});
-    }
-
-    cout<<0<<" ("<<seq[0]<<"): "<<DP.begin()->second<<endl;
-    
-    for (map<int,int>::iterator it=DP.begin(); it!=DP.end(); ++it){
-        cout << it->first << " => " << it->second << '\n';
-    }
-    cout<<"---------------------------------"<<endl;
+    DP[INT_MIN] = 0;
     
     //////
-    for(int i=1; i<N; i++){
+    for(int i=0; i<N; i++){
         int value = seq[i];
 
-        // non prendo => ultimo
-        int notTaken = DP.rbegin()->second;
+        // non prendo => ultimo (non me ne frega)
+        //int notTaken = DP.rbegin()->second;
         
         // prendo => numeri minori di value, + value
-        int taken = value + (--DP.lower_bound(value))->second;
+        map<int,int>::iterator limite = --DP.upper_bound(value);
 
-        cout<<i<<" ("<<value<<"): "<<"t "<<taken<<", nT "<<notTaken<<endl;
-        cout<<"upper: "<<(--DP.upper_bound(value))->second<<endl;
-        cout<<"lower: "<<(--DP.lower_bound(value))->second<<endl;
-
-        DP.insert({value, taken});
-        
-        for (map<int,int>::iterator it=DP.begin(); it!=DP.end(); ++it){
-           cout << it->first << " => " << it->second << '\n';
+        int max_guad = 0;
+        while(limite->first != INT_MIN){
+            max_guad = max(max_guad, limite->second);
+            limite--;
         }
-        cout<<"---------------------------------"<<endl;
+
+        int taken = max_guad + value;
+
+        //cout<<i<<" ("<<value<<"): "<<"t "<<taken<<endl;
+        //cout<<"limite: "<<limite->second<<", max_guad: "<<max_guad<<endl;
+
+        DP[value] = taken;
+        
+        //for (map<int,int>::iterator it=DP.begin(); it!=DP.end(); ++it)  cout << it->first << " => " << it->second << '\n';
+        //cout<<"---------------------------------"<<endl;
         
     }
 
@@ -77,6 +70,20 @@ int sottocres(vector<int>& seq){
     return mx;
 }
 
+void test(){
+    map<int, int> t;
+    t.insert({{4, 2}, {5, 4}, {10, 9}});
+    for (map<int,int>::iterator it=t.begin(); it!=t.end(); ++it){
+        cout << it->first << " => " << it->second << '\n';
+    }
+
+    cout<<"Begin: "<<t.begin()->first<<", end: "<<(t.end())->first<<", rbegin: "<<t.rbegin()->first<<endl;
+    cout<<"Upper: "<<t.upper_bound(2)->first<<", lower: "<<t.lower_bound(2)->first<<endl;
+    cout<<"Upper_dec: "<<(--t.upper_bound(2))->first<<endl;
+    cout<<(--t.begin()==t.end())<<endl;
+}
+
+// serve upperbound diminuito
 
 int main(){
 
@@ -88,10 +95,13 @@ int main(){
         input>>seq[i];
     }
 
-    int result = sottocresRec(seq, N-1, INT_MAX);
-    cout<<result<<endl;
+    //test();
+
+    int result = sottocres(seq);
+    //cout<<result<<endl;
     ofstream output("output.txt");
     output<<result;
+    //cout<<"Ric: "<<sottocresRec(seq, N-1, INT_MAX)<<endl;
 
     return 0;
 }
