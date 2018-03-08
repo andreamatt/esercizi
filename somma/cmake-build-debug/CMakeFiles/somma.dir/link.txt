@@ -1,3 +1,0 @@
-C:\Users\andrea\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\172.4343.16\bin\cmake\bin\cmake.exe -E remove -f CMakeFiles\somma.dir/objects.a
-C:\MinGW\bin\ar.exe cr CMakeFiles\somma.dir/objects.a @CMakeFiles\somma.dir\objects1.rsp
-C:\MinGW\bin\g++.exe -g   -Wl,--whole-archive CMakeFiles\somma.dir/objects.a -Wl,--no-whole-archive  -o somma.exe -Wl,--out-implib,libsomma.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\somma.dir\linklibs.rsp

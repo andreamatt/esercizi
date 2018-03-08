@@ -1,3 +1,0 @@
-C:\Users\andrea\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\172.4343.16\bin\cmake\bin\cmake.exe -E remove -f CMakeFiles\flatland2.dir/objects.a
-C:\MinGW\bin\ar.exe cr CMakeFiles\flatland2.dir/objects.a @CMakeFiles\flatland2.dir\objects1.rsp
-C:\MinGW\bin\g++.exe -g   -Wl,--whole-archive CMakeFiles\flatland2.dir/objects.a -Wl,--no-whole-archive  -o flatland2.exe -Wl,--out-implib,libflatland2.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\flatland2.dir\linklibs.rsp

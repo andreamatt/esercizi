@@ -1,3 +1,0 @@
-C:/Users/andrea/Documents/GitHub/esercizi/cammino/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-C:/Users/andrea/Documents/GitHub/esercizi/cammino/cmake-build-debug/CMakeFiles/cammino.dir
-C:/Users/andrea/Documents/GitHub/esercizi/cammino/cmake-build-debug/CMakeFiles/edit_cache.dir

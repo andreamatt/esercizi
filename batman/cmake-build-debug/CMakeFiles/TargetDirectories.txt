@@ -1,3 +1,0 @@
-C:/Users/andrea/Documents/GitHub/esercizi/batman/cmake-build-debug/CMakeFiles/batman.dir
-C:/Users/andrea/Documents/GitHub/esercizi/batman/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/andrea/Documents/GitHub/esercizi/batman/cmake-build-debug/CMakeFiles/rebuild_cache.dir

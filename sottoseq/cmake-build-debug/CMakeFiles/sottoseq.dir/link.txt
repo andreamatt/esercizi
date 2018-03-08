@@ -1,3 +1,0 @@
-C:\Users\andrea\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\172.4343.16\bin\cmake\bin\cmake.exe -E remove -f CMakeFiles\sottoseq.dir/objects.a
-C:\MinGW\bin\ar.exe cr CMakeFiles\sottoseq.dir/objects.a @CMakeFiles\sottoseq.dir\objects1.rsp
-C:\MinGW\bin\g++.exe -g   -Wl,--whole-archive CMakeFiles\sottoseq.dir/objects.a -Wl,--no-whole-archive  -o sottoseq.exe -Wl,--out-implib,libsottoseq.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\sottoseq.dir\linklibs.rsp

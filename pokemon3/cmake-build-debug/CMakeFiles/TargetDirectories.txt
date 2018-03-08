@@ -1,3 +1,0 @@
-C:/Users/andrea/Documents/GitHub/esercizi/pokemon3/cmake-build-debug/CMakeFiles/pokemon3.dir
-C:/Users/andrea/Documents/GitHub/esercizi/pokemon3/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/andrea/Documents/GitHub/esercizi/pokemon3/cmake-build-debug/CMakeFiles/rebuild_cache.dir

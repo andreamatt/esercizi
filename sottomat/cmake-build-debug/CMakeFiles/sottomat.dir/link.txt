@@ -1,3 +1,0 @@
-C:\Users\andrea\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\172.4343.16\bin\cmake\bin\cmake.exe -E remove -f CMakeFiles\sottomat.dir/objects.a
-C:\MinGW\bin\ar.exe cr CMakeFiles\sottomat.dir/objects.a @CMakeFiles\sottomat.dir\objects1.rsp
-C:\MinGW\bin\g++.exe -g   -Wl,--whole-archive CMakeFiles\sottomat.dir/objects.a -Wl,--no-whole-archive  -o sottomat.exe -Wl,--out-implib,libsottomat.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\sottomat.dir\linklibs.rsp

@@ -1,3 +1,0 @@
-C:/Users/andrea/Documents/GitHub/esercizi/allenamento_esame/cmake-build-debug/CMakeFiles/allenamento_esame.dir
-C:/Users/andrea/Documents/GitHub/esercizi/allenamento_esame/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/andrea/Documents/GitHub/esercizi/allenamento_esame/cmake-build-debug/CMakeFiles/rebuild_cache.dir
