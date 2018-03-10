@@ -82,14 +82,9 @@ int sottocresDual(vector<int>& seq){
         }
     }
 
-    int mx=0;
-    for(int i=0; i<N; i++){
-        for(int j=0; j<N; j++){
-            mx = max(mx, sottocresDualRec(seq, i, j, DP));
-        }
-    }
+    
 
-    return mx;
+    return sottocresDualRec(seq, 0, 0, DP);
 }
 
 int sottocres(vector<int>& seq){
@@ -148,7 +143,7 @@ int main(){
     
     int result = sottocresMono(seq);
     ofstream output("output.txt");
-    //cout<<result<<endl;
+    cout<<result<<endl;
     output<<result;
     
     return 0;
