@@ -27,8 +27,8 @@ lint pilloleRec(int i, int m, lint** DP){
 lint pillole(int P){
     lint** DP = new lint*[P+1];
     for(int i=0; i<=P; i++){
-        DP[i] = new lint[ P*2 +1 ];
-        for(int m=0; m<=P*2; m++){
+        DP[i] = new lint[ P +1 ];
+        for(int m=0; m<=P; m++){
             DP[i][m] = -1;
         }
     }
@@ -37,17 +37,17 @@ lint pillole(int P){
 }
 
 lint pilloleIter(int P){
-    vector<lint> prec(P*2 +1, 1);
-    vector<lint> curr(P*2 +1, 0);
+    vector<lint> prec(P +1, 1);
+    vector<lint> curr(P +1, 0);
 
     for(int i=1; i<=P; i++){
         curr[0] = prec[1];
-        for(int m=1; m < P*2; m++){
+        for(int m=1; m < P; m++){
             curr[m] = curr[m-1] + prec[m+1];
         }
-        curr[P*2] = 1;
+        curr[P] = 1;
 
-        for(int m=0; m<= P*2; m++){
+        for(int m=0; m<= P; m++){
             prec[m] = curr[m];
             //cout<<curr[m]<<", ";
             curr[m] = 0;
