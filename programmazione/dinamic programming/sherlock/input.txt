@@ -1,0 +1,45 @@
+4 15 6
+JHJHJHJHJHJHJHJ
+HHHHHHHHHHHHHHH
+HHHHHHHHHHHHHHH
+HHHHHJJJJJHHHHH
+
+JJJJJJJJJJJJJJJ (15, 1)
+HHHHHHHHHHHHHHH (15, 1)
+HHHHHHHHHHHHHHH (15, 1)
+HHHHHJJJJJHHHHH (10, 1), (10, 2), (10, 2), (15, 3)
+
+JJJJJJJJJJJJJJJ [15]
+HHHHHHHHHHHHHHH [15]
+HHHHHHHHHHHHHHH [15]
+HHHHJJJJJHHHHHH [10, 9 / 11, 15]
+
+
+
+stringa to set of zaino-items
+
+guadagno data capacità C
+G(i, C, prec) = {
+    // se uguale al prec:
+    return 1 + G(i-1, C, prec)
+
+    // se diverso:
+    notTaken = G(succ, C, prec)
+    taken = G(i-1, C-1, S[i])
+}
+
+
+
+JJHHHHJJ
+HHHJHHJJ
+JHJHJHJH
+HHHJJJJJ
+JJJJJJJJ
+ 0  1  2  3
+[0, 4, 6, 8]
+[0, 5, 7, 7]
+[0, 4, 5, 6]
+[0, 5, 8, 8]
+[0, 8, 8, 8]
+
+
