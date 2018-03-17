@@ -5,91 +5,44 @@
 
 using namespace std;
 
-pair<vector<int>,vector<int>> succ(string S){
-    vector<int> H(S.size());
-    vector<int> J(S.size());
-    int h=-1;
-    int j=-1;
+typedef vector<vector<int>> Mat;
 
-    for(int i=0; i<S.size(); i++){
-        H[i] = h;
-        J[i] = j;
-        if(S[i] == 'H'){
-            h = i;
+void printMat(Mat& MAT){
+    for(int i=0; i<MAT.size(); i++){
+        for(int j=0; j<MAT[i].size(); j++){
+            cout<<MAT[i][j]<<", ";
         }
-        else{
-            j = i;
-        }
+        cout<<endl;
     }
-    return {H, J};
+    cout<<endl;
 }
 
-int guadagnoRec(string &S, int i, char prec, int c, int** DP, vector<int>& H, vector<int>& J){
-    // casi estremi
-    if(c < 0){
-        return -1;
+int guadagnoRec(string S, int i, int k, char c){
+    if(k < 0){
+        return -9999999;
     }
-    if(i < 0){
+    if(i==S.size()){
         return 0;
     }
 
-    // se non calcolato
-    //cout<<"Before: DP["<<i<<"]["<<c<<"] = "<<DP[i][c]<<endl;
-    if(DP[i][c] == -1){
-        // se uguale al prec:
-        if(S[i] == prec){
-            DP[i][c] = 1 + guadagnoRec(S, i-1, prec, c, DP, H, J);
-        }
-
-        // se diverso:
-        else{
-            // non lo prendo => salto
-            int salto = (prec=='H') ? H[i] : J[i];
-            int notTaken = guadagnoRec(S, salto, prec, c, DP, H, J);
-
-            // lo prendo => meno capacità
-            int taken = 1 + guadagnoRec(S, i-1, S[i], c-1, DP, H, J);
-
-            DP[i][c] = max(taken, notTaken);
-        }
+    if(S[i]==c){
+        return 1 + guadagnoRec(S, i+1, k, S[i]);
     }
-    //cout<<"After:  DP["<<i<<"]["<<c<<"] = "<<DP[i][c]<<endl;
-
-    return DP[i][c];
+    else{
+        return max(guadagnoRec(S, i+1, k, c), 1+guadagnoRec(S, i+1, k-1, S[i]));
+    }
 }
 
-int guadagno(string S, int C, int** DP){
-    pair<vector<int>, vector<int>> HJ = succ(S);
-
-    //char prec = (S.back() == 'J') ? 'H' : 'J';
-    char last = S.back();
-    return 1 + guadagnoRec(S, S.size()-2, last, C-1, DP, HJ.first, HJ.second);
+vector<int> stringToGuad(string S, int K){
+    vector<int> guad(K+1, 0);
+    char diff = (S[0]=='H') ? 'J' : 'H';
+    for(int k=1; k<=K; k++){
+        guad[k] = guadagnoRec(S, 0, k, '#');
+    }
+    return guad;
 }
 
-vector<int> stringToGuad(string S, int C){
-    int** DP = new int*[S.size()];
-    for(int i=0; i<S.size(); i++){
-        DP[i] = new int[C+1];
-        for(int c=0; c<C+1; c++){
-            DP[i][c] = -1;
-        }
-    }
-    
-    vector<int> result(C+1);
-    // chiamo funzione guadagno
-    for(int c=0; c<=C; c++){
-        result[c] = guadagno(S, c, DP);
-    }
-
-    for(int i=0; i<S.size(); i++){
-        delete[] DP[i];
-    }
-    delete[] DP;
-
-    return result;
-}
-
-int knapsackRec(vector<vector<int>>& guadagni, int i, int C){
+int knapsackRec(Mat& guadagni, int i, int C){
     if(i==guadagni.size()){
         return 0;
     }
@@ -109,11 +62,15 @@ int knapsackRec(vector<vector<int>>& guadagni, int i, int C){
 }
 
 int main(){
-    
-    string test = "JHJ";
+    cout<<"Scrivi seq: ";
+    string test;
+    test = "JH";
+    //cin>>test;
     cout<<test<<endl;
     vector<int> guad = stringToGuad(test, 4);
     for(int c=0; c<guad.size(); c++)  cout<<guad[c]<<", "; cout<<endl<<endl;
+
+    //Mat HJ = {succ(test).first, succ(test).second};   printMat(HJ);
     return 0;
     
     ifstream input("input.txt");
@@ -122,7 +79,7 @@ int main(){
     int T; // limite travestimenti
     input>>N>>M>>T;
     vector<string> serate;
-    vector<vector<int>> guadagni;
+    Mat guadagni;
     for(int i=0; i<N; i++){
         string a = ",";
         input>>a;

@@ -1,0 +1,22 @@
+JHJ
+C: 0 1 2 3 4
+0: 0 1 1 1 1
+1: 0 1 2 2 2
+2: 0 2 2 3 3
+
+0123456
+JHJJJJJ
+C: 0 1 2 3 4
+0: 0 1 1 1 1
+1: 0 1 2 2 2
+2: 0 2 2 3 3
+3: 0 ::
+
+a sx sono tutte J fino a i=1 => posso:
+- prenderle tutte e saltare oltre (alla successiva J) con la stessa capacità
+- prenderle tutte e trasformarmi in H con capacità--
+
+
+GUAD[i][c] :
+1: prossimo uguale, stessa capacità
+2: prossimo diverso, capacità--
