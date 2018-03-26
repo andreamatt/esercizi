@@ -1,96 +1,113 @@
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <vector>
-#include <string.h>
+#include <string>
 
 using namespace std;
 
 typedef vector<vector<int>> Mat;
 
-void printMat(Mat& MAT){
-    for(int i=0; i<MAT.size(); i++){
-        for(int j=0; j<MAT[i].size(); j++){
-            cout<<MAT[i][j]<<", ";
+void printMat(Mat& mat){
+    for(int i=0; i<mat.size(); i++){
+        cout<<i<<", "<<mat[i].size()<<": ";
+        for(int j=0; j<mat[i].size(); j++){
+            cout<<mat[i][j]<<", ";
         }
         cout<<endl;
     }
     cout<<endl;
 }
 
-int guadagnoRec(string S, int i, int k, char c){
-    if(k < 0){
-        return -9999999;
-    }
-    if(i==S.size()){
-        return 0;
-    }
 
-    if(S[i]==c){
-        return 1 + guadagnoRec(S, i+1, k, S[i]);
-    }
-    else{
-        return max(guadagnoRec(S, i+1, k, c), 1+guadagnoRec(S, i+1, k-1, S[i]));
-    }
+// trasforma da stringa a vettore di lunghezze
+// es: da JJJHHHHHJHHJJ => {3, 5, 1, 2, 2}
+// es: da JJJJJJJJJJJJJ => {13}
+Mat clean(vector<string>& serate) {
+    int N = serate.size();
+    int M = serate[0].size();
+	Mat cleaned(N);
+	
+	for (int i = 0; i < N; i++) {
+		int count = 1;
+		for (int j = 1; j < M; j++) {
+			if (serate[i][j] == serate[i][j - 1])
+				count++;
+			else {
+				cleaned[i].push_back(count);
+				count = 1;
+			}
+		}
+		cleaned[i].push_back(count);
+	}
+
+    return cleaned;
 }
 
-vector<int> stringToGuad(string S, int K){
-    vector<int> guad(K+1, 0);
-    char diff = (S[0]=='H') ? 'J' : 'H';
-    for(int k=1; k<=K; k++){
-        guad[k] = guadagnoRec(S, 0, k, '#');
-    }
-    return guad;
+// da vettore di lunghezze a vettore di guadagni: in posizione i quanto guadagno con capacità i
+// es: {1, 3, 2, 2}(JHHHJJHH) => {0, 5, 6, 7, 8, 8, 8, ...}
+vector<int> stringToGuad(vector<int>& seq, int T) {
+	int S = seq.size();
+	Mat res(S + 1, vector<int>(T + 1, 0));
+
+	for (int t = 1; t <= T; t++) {
+		res[S - 1][t] = seq[S - 1];
+		res[S][t] = 0;
+	}
+
+    printMat(res);
+
+	for (int i = S - 2; i >= 0; i--) {
+		for (int t = 1; t <= T; t++) {
+			res[i][t] = res[i + 1][t];
+			int cur = 0;
+			for (int j = i; j < S; j += 2) {
+				cur += seq[j];
+				res[i][t] = max(res[i][t], res[j + 1][t - 1] + cur);
+			}
+		}
+	}
+
+    //for(int i=0; i<res[0].size(); i++)  cout<<res[0][i]<<", ";  cout<<endl;
+
+	return res[0];
 }
 
-int knapsackRec(Mat& guadagni, int i, int C){
-    if(i==guadagni.size()){
-        return 0;
-    }
+int sherlock(Mat& cleaned, int N, int T){
 
-	int best = 0;
-    for(int c=0; c<=C; c++){
-        int questo = guadagni[i][c];
-        int resto = knapsackRec(guadagni, i+1, C-c);
-        best = max(best, questo+resto);
-        if(i==0){
-            //cout<<"Questo: "<<questo<<", resto: "<<resto<<", best: "<<best<<endl;
+    Mat Tab(N);
+    Tab[0] = stringToGuad(cleaned[0], T);
+
+    for(int i=1; i<N; i++){
+        vector<int> cur = stringToGuad(cleaned[i], T);
+        Tab[i].resize(T+1);
+        
+        for(int tot=0; tot<=T; tot++){
+            for(int here=0; here<=tot; here++){
+                Tab[i][tot] = max(Tab[i][tot], cur[here] + Tab[i-1][tot-here]);
+            }
         }
     }
 
-    //cout<<"I: "<<i<<", C: "<<C<<", best: "<<best<<endl;
-    return best;
+    return Tab[N-1][T];
 }
 
-int main(){
-    cout<<"Scrivi seq: ";
-    string test;
-    test = "JH";
-    //cin>>test;
-    cout<<test<<endl;
-    vector<int> guad = stringToGuad(test, 4);
-    for(int c=0; c<guad.size(); c++)  cout<<guad[c]<<", "; cout<<endl<<endl;
+int main() {
+	ifstream in("input.txt");
 
-    //Mat HJ = {succ(test).first, succ(test).second};   printMat(HJ);
-    return 0;
-    
-    ifstream input("input.txt");
-    int N; // serate
-    int M; // lunghezza serata
-    int T; // limite travestimenti
-    input>>N>>M>>T;
+    int N, M, T;
     vector<string> serate;
-    Mat guadagni;
-    for(int i=0; i<N; i++){
-        string a = ",";
-        input>>a;
-        serate.push_back(a);
-        //cout<<a<<endl;
-        vector<int> guad = stringToGuad(a, T);
-        //for(int c=0; c<guad.size(); c++)  cout<<guad[c]<<", "; cout<<endl<<endl;
-        guadagni.push_back(guad);
+	in >> N >> M >> T;
+	serate.resize(N);
+	for (int i = 0; i < N; i++){
+		in >> serate[i];
     }
-    
-    cout<<endl<<"Result: "<<knapsackRec(guadagni, 0, T)<<endl;
 
-    return 0;
+	Mat cleaned = clean(serate);
+    
+	int result = sherlock(cleaned, N, T);
+
+	ofstream out("output.txt");
+    out<<result;
+
+	return 0;
 }
